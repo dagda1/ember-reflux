@@ -2,7 +2,9 @@
   "predef": [
     "document",
     "window",
-    "-Promise"
+    "-Promise",
+    "UUID4",
+    "Immutable"
   ],
   "browser": true,
   "boss": true,

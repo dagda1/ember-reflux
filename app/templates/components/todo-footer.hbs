@@ -1,0 +1,23 @@
+{{#if todos.length}}
+  <footer id="footer">
+    <span id="todo-count">
+      <strong>{{todos.length}}</strong>
+      <span> </span>
+      <span>item</span>
+      <span> left</span>
+    </span>
+    <ul id="filters">
+      <li>
+        <a href="#/" class="selected">All</a>
+      </li>
+      <span> </span>
+      <li>
+        <a href="#/active">Active</a>
+      </li>
+      <span> </span>
+      <li>
+        <a href="#/completed">Completed</a>
+      </li>
+    </ul>
+  </footer>
+{{/if}}

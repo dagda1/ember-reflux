@@ -1,42 +1,8 @@
 <!-- http://todomvc.com/examples/react/#/ -->
 <section id="todoapp">
   <div>
-    <header id="header">
-      <h1>todos</h1>
-      <input id="new-todo" placeholder="What needs to be done?">
-    </header>
-    <section id="main">
-      <input id="toggle-all" type="checkbox">
-      <ul id="todo-list">
-        <li>
-          <div class="view">
-            <input class="toggle" type="checkbox">
-            <label>AAAAA</label>
-            <button class="destroy"></button>
-          </div>
-          <input class="edit" value="AAAAA">
-        </li>
-      </ul>
-    </section>
-    <footer id="footer">
-      <span id="todo-count">
-        <strong>1</strong>
-        <span> </span>
-        <span>item</span>
-        <span> left</span>
-      </span><ul id="filters">
-        <li>
-          <a href="#/" class="selected">All</a>
-        </li>
-        <span> </span>
-        <li>
-          <a href="#/active">Active</a>
-        </li>
-        <span> </span>
-        <li>
-          <a href="#/completed">Completed</a>
-        </li>
-      </ul>
-    </footer>
+    {{todo-header}}
+    {{todo-list}}
+    {{todo-footer}}
   </div>
 </section>

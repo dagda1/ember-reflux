@@ -1,0 +1,15 @@
+<section id="main">
+  <input id="toggle-all" type="checkbox">
+  <ul id="todo-list">
+    {{#each todo in todos}}
+      <li>
+        <div class="view">
+          <input class="toggle" type="checkbox">
+          <label>{{todo.description}}</label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit" value="AAAAA">
+      </li>
+    {{/each}}
+  </ul>
+</section>

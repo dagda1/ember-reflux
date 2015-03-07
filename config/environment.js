@@ -2,6 +2,16 @@
 
 module.exports = function(environment) {
   var ENV = {
+    contentSecurityPolicy: {
+      'default-src': "'none'",
+      'script-src': "'self'",
+      'font-src': "'self'",
+      'connect-src': "'self'",
+      'img-src': "'self' www.gravatar.com",
+      'style-src': "'self'",
+      'media-src': "'self'",
+      'img-src': "'self'"
+    },
     modulePrefix: 'ember-reflux',
     environment: environment,
     baseURL: '/',
