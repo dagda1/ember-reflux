@@ -1,46 +1,38 @@
 import Ember from 'ember';
 
-let get = Ember.get;
-
 export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
-  actions:{
-    addItem: function(description) {
-      var newItem = {
-        key: UUID4.generate(),
-        created: new Date(),
-        finished: false,
-        description: description
-      };
+  addItem: function(description) {
+    var newItem = {
+      key: UUID4.generate(),
+      created: new Date(),
+      finished: false,
+      description: description
+    };
 
-      let newList = mori.cons(newItem, this.todos);
+    let newList = mori.cons(newItem, this.todos);
 
-      this.send('updateList', this.todos, newList);
+    this.undoList = mori.cons(this.todos, this.undoList);
 
-      this.todos = newList;
-    },
+    this.updateList(this.todos, newList);
 
-    updateList: function(oldList, newList) {
-      let payload = {
-        todos: newList,
-        canRedo: get(this, 'canRedo'),
-        canUndo: get(this, 'canUndo')
-      };
+    this.todos = newList;
+  },
 
-      this.trigger('listUpadated', payload);
-    }
+  updateList: function(oldList, newList) {
+    let payload = {
+      todos: newList,
+      canRedo: mori.count(this.redoList) > 0,
+      canUndo: mori.count(this.undoList) > 0
+    };
+
+    console.log(payload);
+
+    this.trigger('listUpadated', payload);
   },
 
   todos: null,
   undoList: null,
   redoList: null,
-
-  canUndo: Ember.computed('undoList', function(){
-    return mori.count(get(this, 'undoList')) > 0;
-  }),
-
-  canRedo: Ember.computed('redoList', function(){
-    return mori.count(get(this, 'redoList')) > 0;
-  }),
 
   setup: Ember.on('init', function(){
     this._actions = this.actions;

@@ -12,14 +12,13 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
   disableUndo: Ember.computed.not('canUndo'),
   disableRedo: Ember.computed.not('canRedo'),
 
-  target: Ember.computed.oneWay('todoStoreService'),
-
   keyDown: function (e) {
     Ember.run.next(() => {
-      let text = e.target.value || '';
+      let text = e.target.value || '',
+          todoStore = get(this, 'todoStoreService');
 
       if(e.which === 13 && text.length) {
-        this.send('addItem', text);
+        todoStore.addItem(text);
         e.target.value = '';
         e.target.focus();
       }
