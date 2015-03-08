@@ -4,7 +4,7 @@
     "window",
     "-Promise",
     "UUID4",
-    "Immutable"
+    "mori"
   ],
   "browser": true,
   "boss": true,

@@ -1,0 +1,1 @@
+- move more.js intod vendor

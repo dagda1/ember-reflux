@@ -4,7 +4,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp();
 
-app.import('bower_components/immutable/dist/immutable.js');
+app.import('vendor/mori.js');
 app.import('bower_components/uuid4/lib/uuid4.js');
 
 // Use `app.import` to add additional libraries to the generated

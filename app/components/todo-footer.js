@@ -1,18 +1,9 @@
 import Ember from 'ember';
+import TodoStoreListenerMixin from '../mixins/todo-store-listener.js';
 
 var get = Ember.get;
 
-export default Ember.Component.extend({
-  setup: Ember.on('didInsertElement', function() {
-    let todoStore = get(this, 'todoStoreService');
-
-    todoStore.on('listUpadated', this, this.onListUpaded.bind(this));
-  }),
-
-  onListUpaded: function(payload){
-    this.set('todos', Ember.A(payload.todos.toJS()));
-  },
-
+export default Ember.Component.extend(TodoStoreListenerMixin, {
   todos: Ember.A(),
 
   completed: Ember.computed.filter('todos', function(todo){

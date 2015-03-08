@@ -1,8 +1,17 @@
 import Ember from 'ember';
+import TodoStoreListenerMixin from '../mixins/todo-store-listener.js';
 
-var get = Ember.get;
+var get = Ember.get,
+    set = Ember.set;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TodoStoreListenerMixin, {
+
+  canUndo: false,
+  canRedo: false,
+
+  disableUndo: Ember.computed.not('canUndo'),
+  disableRedo: Ember.computed.not('canRedo'),
+
   target: Ember.computed.oneWay('todoStoreService'),
 
   keyDown: function (e) {
@@ -15,5 +24,12 @@ export default Ember.Component.extend({
         e.target.focus();
       }
     });
+  },
+
+  onListUpaded: function(payload) {
+    this._super.apply(this, arguments);
+
+    set(this, 'canUndo', payload.canUndo);
+    set(this, 'canRedo', payload.canRedo);
   }
 });

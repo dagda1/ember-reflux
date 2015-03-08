@@ -12,11 +12,11 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
         description: description
       };
 
-      let newList = this.list.unshift(newItem);
+      let newList = mori.cons(newItem, this.todos);
 
-      this.send('updateList', this.list, newList);
+      this.send('updateList', this.todos, newList);
 
-      this.list = newList;
+      this.todos = newList;
     },
 
     updateList: function(oldList, newList) {
@@ -30,18 +30,23 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
     }
   },
 
-  list: null,
+  todos: null,
   undoList: null,
   redoList: null,
 
-  canUndo: Ember.computed.bool('undoList.size'),
-  canRedo: Ember.computed.bool('redolist.size'),
+  canUndo: Ember.computed('undoList', function(){
+    return mori.count(get(this, 'undoList')) > 0;
+  }),
+
+  canRedo: Ember.computed('redoList', function(){
+    return mori.count(get(this, 'redoList')) > 0;
+  }),
 
   setup: Ember.on('init', function(){
     this._actions = this.actions;
 
-    this.list = Immutable.List.of();
-    this.undoList = Immutable.List.of();
-    this.redoList = Immutable.List.of();
+    this.todos = mori.vector();
+    this.undoList = mori.vector();
+    this.redoList = mori.vector();
   })
 });
