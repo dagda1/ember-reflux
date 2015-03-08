@@ -9,25 +9,41 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
       description: description
     };
 
-    let newList = mori.cons(newItem, this.todos);
+    let newList = mori.conj(this.todos, newItem);
 
     this.undoList = mori.cons(this.todos, this.undoList);
 
-    this.updateList(this.todos, newList);
-
-    this.todos = newList;
+    this.updateList(newList);
   },
 
-  updateList: function(oldList, newList) {
+  undo: function() {
+    let reverted = mori.first(this.undoList);
+
+    this.redoList = mori.cons(this.todos, this.redoList);
+    this.undoList = mori.drop(1, this.undoList);
+
+    this.updateList(reverted);
+  },
+
+  redo: function() {
+    let reverted = mori.first(this.redoList);
+
+    this.undoList = mori.cons(this.todos, this.undoList);
+    this.redoList = mori.drop(1, this.redoList);
+
+    this.updateList(reverted);
+  },
+
+  updateList: function(newList) {
     let payload = {
-      todos: newList,
+      todos: mori.toJs(newList),
       canRedo: mori.count(this.redoList) > 0,
       canUndo: mori.count(this.undoList) > 0
     };
 
-    console.log(payload);
-
     this.trigger('listUpadated', payload);
+
+    this.todos = newList;
   },
 
   todos: null,

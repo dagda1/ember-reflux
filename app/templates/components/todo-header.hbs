@@ -2,8 +2,8 @@
   <h1>todos</h1>
   <ul class="history-buttons">
     <li>
-      <button class="history" {{bind-attr disabled=disableUndo}}>Undo</button>
-      <button class="history" {{bind-attr disabled=disableRedo}}>Redo</button>
+      <button class="history" {{action "undo"}} {{bind-attr disabled=disableUndo}}>Undo</button>
+      <button class="history" {{action "redo"}} {{bind-attr disabled=disableRedo}}>Redo</button>
     </li>
   </ul>
   <input id="new-todo" placeholder="What needs to be done?">

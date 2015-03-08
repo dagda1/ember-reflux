@@ -11,6 +11,6 @@ export default Ember.Mixin.create({
   }),
 
   onListUpaded: function(payload){
-    set(this, 'todos', Ember.A(mori.toJs(payload.todos)));
+    set(this, 'todos', payload.todos);
   }
 });

@@ -1,1 +1,2 @@
-- move more.js intod vendor
+- checkout bind-attr new syntax
+- get dispatcher from reflux

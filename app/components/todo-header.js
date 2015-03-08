@@ -5,6 +5,15 @@ var get = Ember.get,
     set = Ember.set;
 
 export default Ember.Component.extend(TodoStoreListenerMixin, {
+  actions: {
+    undo: function() {
+      get(this, 'todoStoreService').undo();
+    },
+
+    redo: function() {
+      get(this, 'todoStoreService').redo();
+    }
+  },
 
   canUndo: false,
   canRedo: false,
