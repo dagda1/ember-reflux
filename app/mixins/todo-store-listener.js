@@ -5,9 +5,9 @@ let get = Ember.get,
 
 export default Ember.Mixin.create({
   setup: Ember.on('didInsertElement', function() {
-    let todoStore = get(this, 'todoStoreService');
+    let pubsub = get(this, 'pubsub');
 
-    todoStore.on('listUpadated', this, this.onListUpaded);
+    pubsub.subscribe('listUpadated', this, this.onListUpaded.bind(this));
   }),
 
   onListUpaded: function(payload){

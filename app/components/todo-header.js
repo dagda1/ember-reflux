@@ -7,11 +7,11 @@ var get = Ember.get,
 export default Ember.Component.extend(TodoStoreListenerMixin, {
   actions: {
     undo: function() {
-      get(this, 'todoStoreService').undo();
+      this.pubsub.publish('undo');
     },
 
     redo: function() {
-      get(this, 'todoStoreService').redo();
+      this.pubsub.publish('redo');
     }
   },
 
@@ -23,11 +23,10 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
 
   keyDown: function (e) {
     Ember.run.next(() => {
-      let text = e.target.value || '',
-          todoStore = get(this, 'todoStoreService');
+      let text = e.target.value || '';
 
       if(e.which === 13 && text.length) {
-        todoStore.addItem(text);
+        this.pubsub.publish('addItem', text);
         e.target.value = '';
         e.target.focus();
       }

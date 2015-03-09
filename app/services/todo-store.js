@@ -1,7 +1,11 @@
 import Ember from 'ember';
+import StoreMixin from '../mixins/store-mixin';
+import TodoActions from '../utils/todo-actions';
 
-export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
-  addItem: function(description) {
+let get = Ember.get;
+
+export default Ember.Service.extend(Ember.Evented, StoreMixin, {
+  onAddItem: function(description) {
     var newItem = {
       key: UUID4.generate(),
       created: new Date(),
@@ -16,7 +20,7 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
     this.updateList(newList);
   },
 
-  undo: function() {
+  onUndo: function() {
     let reverted = mori.first(this.undoList);
 
     this.redoList = mori.cons(this.todos, this.redoList);
@@ -25,7 +29,7 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
     this.updateList(reverted);
   },
 
-  redo: function() {
+  onRedo: function() {
     let reverted = mori.first(this.redoList);
 
     this.undoList = mori.cons(this.todos, this.undoList);
@@ -39,9 +43,10 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
       todos: mori.toJs(newList),
       canRedo: mori.count(this.redoList) > 0,
       canUndo: mori.count(this.undoList) > 0
-    };
+    },
+    pubsub = get(this, 'pubsub');
 
-    this.trigger('listUpadated', payload);
+    pubsub.publish('listUpadated', payload);
 
     this.todos = newList;
   },
@@ -50,9 +55,9 @@ export default Ember.Service.extend(Ember.ActionHandler, Ember.Evented, {
   undoList: null,
   redoList: null,
 
-  setup: Ember.on('init', function(){
-    this._actions = this.actions;
+  listenables: TodoActions,
 
+  setup: Ember.on('init', function(){
     this.todos = mori.vector();
     this.undoList = mori.vector();
     this.redoList = mori.vector();
