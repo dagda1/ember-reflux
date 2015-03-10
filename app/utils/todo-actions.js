@@ -1,5 +1,5 @@
 export default [
-    "addItem",
-    "undo",
-    "redo"
+  "addItem",
+  "undo",
+  "redo"
 ];

@@ -4,7 +4,7 @@ import TodoActions from '../utils/todo-actions';
 
 let get = Ember.get;
 
-export default Ember.Service.extend(Ember.Evented, StoreMixin, {
+export default Ember.Service.extend(StoreMixin, {
   onAddItem: function(description) {
     var newItem = {
       key: UUID4.generate(),
@@ -43,10 +43,9 @@ export default Ember.Service.extend(Ember.Evented, StoreMixin, {
       todos: mori.toJs(newList),
       canRedo: mori.count(this.redoList) > 0,
       canUndo: mori.count(this.undoList) > 0
-    },
-    pubsub = get(this, 'pubsub');
+    };
 
-    pubsub.publish('listUpadated', payload);
+    this.trigger('listUpadated', payload);
 
     this.todos = newList;
   },
