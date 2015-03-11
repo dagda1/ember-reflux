@@ -1,0 +1,10 @@
+<div class="view">
+  <input class="toggle" type="checkbox">
+  {{#unless isEditing}}
+    <label {{action "handleEditStart" on="doubleClick"}}>{{todo.description}}</label>
+  {{/unless}}
+  <button class="destroy"></button>
+</div>
+{{#if isEditing}}
+  <input class="edit" type="text" {{action "handleBlur" on="focusOut"}} {{bind-attr value=description}}/>
+{{/if}}

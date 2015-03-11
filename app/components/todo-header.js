@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import TodoStoreListenerMixin from '../mixins/todo-store-listener.js';
 
-var set = Ember.set;
+var set = Ember.set,
+    get = Ember.get;
 
 export default Ember.Component.extend(TodoStoreListenerMixin, {
   actions: {
@@ -28,6 +29,9 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
         this.TodoActions.addItem(text);
         e.target.value = '';
         e.target.focus();
+      }
+      else if (e.which === 27) {
+        e.target.value = '';
       }
     });
   },
