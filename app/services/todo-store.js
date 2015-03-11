@@ -1,10 +1,8 @@
 import Ember from 'ember';
-import StoreMixin from '../mixins/store-mixin';
+import ConnectListenersMixin from '../mixins/connect-listeners-mixin.js';
 import TodoActions from '../utils/todo-actions';
 
-let get = Ember.get;
-
-export default Ember.Service.extend(StoreMixin, {
+export default Ember.Service.extend(ConnectListenersMixin, {
   onAddItem: function(description) {
     var newItem = {
       key: UUID4.generate(),
@@ -45,7 +43,7 @@ export default Ember.Service.extend(StoreMixin, {
       canUndo: mori.count(this.undoList) > 0
     };
 
-    this.trigger('listUpadated', payload);
+    this.trigger('listUpdated', payload);
 
     this.todos = newList;
   },

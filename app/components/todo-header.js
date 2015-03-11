@@ -1,17 +1,16 @@
 import Ember from 'ember';
 import TodoStoreListenerMixin from '../mixins/todo-store-listener.js';
 
-var get = Ember.get,
-    set = Ember.set;
+var set = Ember.set;
 
 export default Ember.Component.extend(TodoStoreListenerMixin, {
   actions: {
     undo: function() {
-      this.pubsub.publish('undo');
+      this.TodoActions.undo();
     },
 
     redo: function() {
-      this.pubsub.publish('redo');
+      this.TodoActions.redo();
     }
   },
 
@@ -26,14 +25,14 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
       let text = e.target.value || '';
 
       if(e.which === 13 && text.length) {
-        this.pubsub.publish('addItem', text);
+        this.TodoActions.addItem(text);
         e.target.value = '';
         e.target.focus();
       }
     });
   },
 
-  onListUpaded: function(payload) {
+  onListUpdated: function(payload) {
     this._super.apply(this, arguments);
 
     set(this, 'canUndo', payload.canUndo);

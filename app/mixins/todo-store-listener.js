@@ -1,16 +1,12 @@
 import Ember from 'ember';
+import ConnectListenersMixin from '../mixins/connect-listeners-mixin.js';
 
-let get = Ember.get,
-    set = Ember.set;
+let set = Ember.set;
 
-export default Ember.Mixin.create({
-  setup: Ember.on('didInsertElement', function() {
-    let pubsub = get(this, 'pubsub');
+export default Ember.Mixin.create( ConnectListenersMixin, {
+  listenables: ['listUpdated'],
 
-    pubsub.subscribe('listUpadated', this, this.onListUpaded.bind(this));
-  }),
-
-  onListUpaded: function(payload){
+  onListUpdated: function(payload){
     set(this, 'todos', payload.todos);
   }
 });
