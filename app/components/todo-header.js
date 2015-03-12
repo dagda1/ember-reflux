@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import TodoStoreListenerMixin from '../mixins/todo-store-listener.js';
 
-var set = Ember.set,
-    get = Ember.get;
+var set = Ember.set;
 
 export default Ember.Component.extend(TodoStoreListenerMixin, {
   actions: {
@@ -38,5 +37,11 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
 
     set(this, 'disableUndo', !payload.canUndo);
     set(this, 'disableRedo', !payload.canRedo);
-  }
+  },
+
+  setup: Ember.on('didInsertElement', function() {
+    this._super.apply(this, arguments);
+
+    this.TodoActions.getInitial();
+  })
 });

@@ -8,11 +8,5 @@ export default Ember.Mixin.create( ConnectListenersMixin, {
 
   onListUpdated: function(payload){
     set(this, 'todos', payload.todos);
-  },
-
-  setup: Ember.on('didInsertElement', function() {
-    this._super.apply(this, arguments);
-
-    this.TodoActions.getTodos();
-  })
+  }
 });

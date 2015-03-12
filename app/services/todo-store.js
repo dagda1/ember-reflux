@@ -33,9 +33,12 @@ let filters = {
   completed: (todo) => {
     return todo.finished;
   },
-};
+},
+ localStorageKey = "todos";
 
 export default Ember.Service.extend(ConnectListenersMixin, {
+  listenables: TodoActions,
+
   onToggleAll: function() {
     this.undoList = mori.cons(this.todos, this.undoList);
 
@@ -108,6 +111,20 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(newList);
   },
 
+  onGetInitial: function() {
+    let existing = JSON.parse(localStorage.getItem(localStorageKey));
+
+    if(existing && mori.count(existing)) {
+      for(let todo of existing) {
+        this.todos = mori.conj(this.todos, todo);
+      }
+    }
+
+    let payload = this.getPayLoad(this.todos);
+
+    this.trigger('listUpdated', payload);
+  },
+
   onGetTodos: function() {
     let payload = this.getPayLoad(this.todos);
 
@@ -150,6 +167,8 @@ export default Ember.Service.extend(ConnectListenersMixin, {
   updateList: function(newList) {
     let payload = this.getPayLoad(newList);
 
+    localStorage.setItem(localStorageKey, JSON.stringify(mori.toJs(newList)));
+
     this.trigger('listUpdated', payload);
 
     this.todos = newList;
@@ -158,8 +177,6 @@ export default Ember.Service.extend(ConnectListenersMixin, {
   todos: null,
   undoList: null,
   redoList: null,
-
-  listenables: TodoActions,
 
   setup: Ember.on('init', function(){
     this.todos = mori.vector();
