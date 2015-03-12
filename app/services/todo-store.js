@@ -65,6 +65,18 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(newList);
   },
 
+  onDestroyItem: function(key) {
+    this.undoList = mori.cons(this.todos, this.undoList);
+
+    let predicate = (todo) => {
+      return todo.key === key;
+    };
+
+    let newList = mori.remove(predicate, this.todos);
+
+    this.updateList(newList);
+  },
+
   onToggleItem: function(key) {
     let existing = getExistingByKey(key, this.todos),
         index = getIndexByKey(key, this.todos),
@@ -74,7 +86,7 @@ export default Ember.Service.extend(ConnectListenersMixin, {
 
     cloned.finished = !existing.finished;
 
-    var newList = mori.assoc(this.todos, index, cloned);
+    let newList = mori.assoc(this.todos, index, cloned);
 
     this.updateList(newList);
   },
