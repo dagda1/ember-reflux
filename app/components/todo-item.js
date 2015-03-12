@@ -16,13 +16,13 @@ export default Ember.Component.extend({
     },
 
     handleBlur: function() {
-      set(this, 'isEditing', false);
-
       if (!get(this, 'isEditing')) {
         return;
       }
 
-      console.log(event);
+      set(this, 'isEditing', false);
+
+      this.TodoActions.editItem(get(this, 'todo.key'), event.target.value);
     }
   },
   keyDown: function(e) {

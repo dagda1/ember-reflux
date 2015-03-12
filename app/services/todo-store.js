@@ -2,7 +2,40 @@ import Ember from 'ember';
 import ConnectListenersMixin from '../mixins/connect-listeners-mixin.js';
 import TodoActions from '../utils/todo-actions';
 
+function getExistingByKey(key, coll) {
+  let found =  mori.first(mori.filter((t) => t.key === key, coll));
+
+  return found;
+}
+
+function getIndexByKey(key, coll) {
+  let i = 0,
+      count = mori.count(coll);
+
+  for (;i < count; i++) {
+    let item = mori.get(coll, i);
+
+    if (item.key === key) {
+      return i;
+    }
+  }
+}
+
 export default Ember.Service.extend(ConnectListenersMixin, {
+  onEditItem: function(key, description) {
+    let existing = getExistingByKey(key, this.todos),
+        index = getIndexByKey(key, this.todos),
+        cloned = $.extend({}, existing);
+
+    this.undoList = mori.cons(this.todos, this.undoList);
+
+    cloned.description = description;
+
+    var newList = mori.assoc(this.todos, index, cloned);
+
+    this.updateList(newList);
+  },
+
   onAddItem: function(description) {
     var newItem = {
       key: UUID4.generate(),

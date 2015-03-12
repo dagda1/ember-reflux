@@ -1,5 +1,6 @@
 export default [
   "addItem",
   "undo",
-  "redo"
+  "redo",
+  "editItem"
 ];
