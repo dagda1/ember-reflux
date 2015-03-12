@@ -51,6 +51,20 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(newList);
   },
 
+  onToggleItem: function(key) {
+    let existing = getExistingByKey(key, this.todos),
+        index = getIndexByKey(key, this.todos),
+        cloned = $.extend({}, existing);
+
+    this.undoList = mori.cons(this.todos, this.undoList);
+
+    cloned.finished = !existing.finished;
+
+    var newList = mori.assoc(this.todos, index, cloned);
+
+    this.updateList(newList);
+  },
+
   onGetTodos: function(predicate) {
     let todos;
 

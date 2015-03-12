@@ -23,6 +23,9 @@ export default Ember.Component.extend({
       set(this, 'isEditing', false);
 
       this.TodoActions.editItem(get(this, 'todo.key'), event.target.value);
+    },
+    handleToggle: function() {
+      this.TodoActions.toggleItem(get(this, 'todo.key'));
     }
   },
   keyDown: function(e) {

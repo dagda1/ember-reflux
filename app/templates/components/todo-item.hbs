@@ -1,5 +1,5 @@
 <div class="view">
-  <input class="toggle" type="checkbox">
+  <input class="toggle" type="checkbox" {{action "handleToggle" on="change"}} {{bind-attr checked=todo.finished}}>
   {{#unless isEditing}}
     <label {{action "handleEditStart" on="doubleClick"}}>{{todo.description}}</label>
   {{/unless}}

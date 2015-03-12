@@ -1,4 +1,5 @@
 export default [
+  "toggleItem",
   "getTodos",
   "addItem",
   "undo",
