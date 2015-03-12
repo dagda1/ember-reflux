@@ -8,15 +8,15 @@
     </span>
     <ul id="filters">
       <li>
-        <a href="#/" class="selected">All</a>
+        {{#link-to "todos.index" activeClass="selected"}}All{{/link-to}}
       </li>
       <span> </span>
       <li>
-        <a href="#/active">Active</a>
+        {{#link-to "todos.active" activeClass="selected"}}Active{{/link-to}}
       </li>
       <span> </span>
       <li>
-        <a href="#/completed">Completed</a>
+        {{#link-to "todos.completed" activeClass="selected"}}Completed{{/link-to}}
       </li>
     </ul>
   </footer>

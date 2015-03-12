@@ -51,6 +51,20 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(newList);
   },
 
+  onGetTodos: function(predicate) {
+    let todos;
+
+    if(predicate) {
+      todos = mori.filter(predicate, this.todos);
+    } else {
+      todos = this.todos;
+    }
+
+    let payload = this.getPayLoad(todos);
+
+    this.trigger('listUpdated', payload);
+  },
+
   onUndo: function() {
     let reverted = mori.first(this.undoList);
 
@@ -69,12 +83,16 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(reverted);
   },
 
-  updateList: function(newList) {
-    let payload = {
-      todos: mori.toJs(newList),
+  getPayLoad: function(todos) {
+    return {
+      todos: mori.toJs(todos),
       canRedo: mori.count(this.redoList) > 0,
       canUndo: mori.count(this.undoList) > 0
     };
+  },
+
+  updateList: function(newList) {
+    let payload = this.getPayLoad(newList);
 
     this.trigger('listUpdated', payload);
 

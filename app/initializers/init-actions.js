@@ -7,6 +7,7 @@ export function initialize(container, application) {
   application.register('todoactions:current', TodoActions, {instantiate: false});
 
   application.inject('component', 'TodoActions', 'todoactions:current');
+  application.inject('route', 'TodoActions', 'todoactions:current');
 
   application.register('reflux:current', reflux, {instantiate: false});
 
