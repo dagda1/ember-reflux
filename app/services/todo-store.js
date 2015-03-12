@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ConnectListenersMixin from '../mixins/connect-listeners-mixin.js';
 import TodoActions from '../utils/todo-actions';
 
+let get = Ember.get;
+
 function getExistingByKey(key, coll) {
   let found =  mori.first(mori.filter((t) => t.key === key, coll));
 
@@ -20,6 +22,18 @@ function getIndexByKey(key, coll) {
     }
   }
 }
+
+let filters = {
+  all: () => {
+    return true;
+  },
+  active: (todo) => {
+    return !todo.finished;
+  },
+  completed: (todo) => {
+    return todo.finished;
+  }
+};
 
 export default Ember.Service.extend(ConnectListenersMixin, {
   onEditItem: function(key, description) {
@@ -65,16 +79,8 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(newList);
   },
 
-  onGetTodos: function(predicate) {
-    let todos;
-
-    if(predicate) {
-      todos = mori.filter(predicate, this.todos);
-    } else {
-      todos = this.todos;
-    }
-
-    let payload = this.getPayLoad(todos);
+  onGetTodos: function() {
+    let payload = this.getPayLoad(this.todos);
 
     this.trigger('listUpdated', payload);
   },
@@ -97,7 +103,12 @@ export default Ember.Service.extend(ConnectListenersMixin, {
     this.updateList(reverted);
   },
 
-  getPayLoad: function(todos) {
+  getPayLoad: function(list) {
+    let filter = get(this, 'filter'),
+        todos = null;
+
+    todos = mori.filter(filters[filter], list);
+
     return {
       todos: mori.toJs(todos),
       canRedo: mori.count(this.redoList) > 0,

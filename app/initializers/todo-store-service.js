@@ -1,7 +1,9 @@
 export function initialize(container, application) {
-  application.inject('component:todo-header', 'todoStoreService', 'service:todo-store');
-  application.inject('component:todo-list', 'todoStoreService', 'service:todo-store');
-  application.inject('component:todo-footer', 'todoStoreService', 'service:todo-store');
+  application.inject('component', 'todoStoreService', 'service:todo-store');
+  application.inject('route', 'TodoStore', 'service:todo-store');
+
+  // we need to do this to initialise the listeners
+  let todoStore = container.lookup('service:todo-store');
 }
 
 export default {

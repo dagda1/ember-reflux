@@ -1,23 +1,21 @@
-{{#if todos.length}}
-  <footer id="footer">
-    <span id="todo-count">
-      <strong>{{todos.length}}</strong>
-      <span> </span>
-      <span>item</span>
-      <span> left</span>
-    </span>
-    <ul id="filters">
-      <li>
-        {{#link-to "todos.index" activeClass="selected"}}All{{/link-to}}
-      </li>
-      <span> </span>
-      <li>
-        {{#link-to "todos.active" activeClass="selected"}}Active{{/link-to}}
-      </li>
-      <span> </span>
-      <li>
-        {{#link-to "todos.completed" activeClass="selected"}}Completed{{/link-to}}
-      </li>
-    </ul>
-  </footer>
-{{/if}}
+<footer id="footer">
+  <span id="todo-count">
+    <strong>{{todos.length}}</strong>
+    <span> </span>
+    <span>item</span>
+    <span> left</span>
+  </span>
+  <ul id="filters">
+    <li>
+      {{#link-to "todos.all" activeClass="selected"}}All{{/link-to}}
+    </li>
+    <span> </span>
+    <li>
+      {{#link-to "todos.active" activeClass="selected"}}Active{{/link-to}}
+    </li>
+    <span> </span>
+    <li>
+      {{#link-to "todos.completed" activeClass="selected"}}Completed{{/link-to}}
+    </li>
+  </ul>
+</footer>
