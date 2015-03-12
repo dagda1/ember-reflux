@@ -32,10 +32,27 @@ let filters = {
   },
   completed: (todo) => {
     return todo.finished;
-  }
+  },
 };
 
 export default Ember.Service.extend(ConnectListenersMixin, {
+  onToggleAll: function() {
+    this.undoList = mori.cons(this.todos, this.undoList);
+
+    let transform = (todo) => {
+      let existing = getExistingByKey(todo.key, this.todos),
+          cloned = $.extend({}, existing);
+
+      cloned.finished = !cloned.finished;
+
+      return cloned;
+    };
+
+    let newList = mori.map(transform, this.todos);
+
+    this.updateList(newList);
+  },
+
   onEditItem: function(key, description) {
     let existing = getExistingByKey(key, this.todos),
         index = getIndexByKey(key, this.todos),
@@ -117,14 +134,16 @@ export default Ember.Service.extend(ConnectListenersMixin, {
 
   getPayLoad: function(list) {
     let filter = get(this, 'filter'),
-        todos = null;
+        todos = null,
+        todosLeft = mori.count(mori.filter(filters['active'], list));
 
     todos = mori.filter(filters[filter], list);
 
     return {
       todos: mori.toJs(todos),
       canRedo: mori.count(this.redoList) > 0,
-      canUndo: mori.count(this.undoList) > 0
+      canUndo: mori.count(this.undoList) > 0,
+      todosLeft: todosLeft
     };
   },
 

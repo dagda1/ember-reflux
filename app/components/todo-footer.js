@@ -4,7 +4,9 @@ import TodoStoreListenerMixin from '../mixins/todo-store-listener.js';
 export default Ember.Component.extend(TodoStoreListenerMixin, {
   todos: Ember.A(),
 
-  completed: Ember.computed.filter('todos', function(todo){
-    return !todo.finished;
-  })
+  onListUpdated: function(payload) {
+    this._super.apply(this, arguments);
+
+    this.set('todosLeft', payload.todosLeft);
+  }
 });

@@ -1,5 +1,5 @@
 <section id="main">
-  <input id="toggle-all" type="checkbox">
+  <input {{action "toggleAll"}} id="toggle-all" type="checkbox">
   <ul id="todo-list">
     {{#each todo in todos}}
       {{todo-item todo=todo tagName="li"}}

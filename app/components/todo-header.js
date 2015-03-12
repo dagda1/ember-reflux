@@ -15,11 +15,8 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
     }
   },
 
-  canUndo: false,
-  canRedo: false,
-
-  disableUndo: Ember.computed.not('canUndo'),
-  disableRedo: Ember.computed.not('canRedo'),
+  disableUndo: true,
+  disableRedo: true,
 
   keyDown: function (e) {
     Ember.run.next(() => {
@@ -39,7 +36,7 @@ export default Ember.Component.extend(TodoStoreListenerMixin, {
   onListUpdated: function(payload) {
     this._super.apply(this, arguments);
 
-    set(this, 'canUndo', payload.canUndo);
-    set(this, 'canRedo', payload.canRedo);
+    set(this, 'disableUndo', !payload.canUndo);
+    set(this, 'disableRedo', !payload.canRedo);
   }
 });

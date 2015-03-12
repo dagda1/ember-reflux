@@ -17,6 +17,7 @@ export function initialize(container, application) {
 
 export default {
   name: 'init-actions',
+  before: 'registerComponentLookup',
   after: 'pubsub-service',
   initialize: initialize
 };

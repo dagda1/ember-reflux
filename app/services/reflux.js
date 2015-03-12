@@ -36,7 +36,8 @@ export default Ember.Object.extend({
       let action = listenables[i],
           handler = 'on' + action.capitalize();
 
-      Ember.assert("You have no handler named " + handler + " for the action " + action, typeof this[handler] === "function");
+      Ember.assert("You have no handler named " + handler +
+                   " for the action " + action + " for " + this.constructor, typeof this[handler] === "function");
 
       pubsub.subscribe(action, this, this[handler].bind(this));
     }
